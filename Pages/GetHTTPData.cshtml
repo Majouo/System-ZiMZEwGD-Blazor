@@ -1,0 +1,44 @@
+﻿@page
+@model System_ZiMZEwGD_Blazor.Pages.GetHTTPDataModel
+
+@{
+    ViewData["Title"] = "GetHTTPData";
+}
+
+<h1>GetHTTPData</h1>
+
+<h4>Consumption</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Consumption.date" class="control-label"></label>
+                <input asp-for="Consumption.date" class="form-control" />
+                <span asp-validation-for="Consumption.date" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consumption.value" class="control-label"></label>
+                <input asp-for="Consumption.value" class="form-control" />
+                <span asp-validation-for="Consumption.value" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Consumption.type" class="control-label"></label>
+                <input asp-for="Consumption.type" class="form-control" />
+                <span asp-validation-for="Consumption.type" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

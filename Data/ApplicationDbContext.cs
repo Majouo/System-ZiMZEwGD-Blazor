@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using System_ZiMZEwGD_Blazor.Data;
 
 namespace System_ZiMZEwGD_Blazor.Data
 {
@@ -9,5 +10,6 @@ namespace System_ZiMZEwGD_Blazor.Data
             : base(options)
         {
         }
+        public DbSet<System_ZiMZEwGD_Blazor.Data.Consumption>? Consumption { get; set; }
     }
 }

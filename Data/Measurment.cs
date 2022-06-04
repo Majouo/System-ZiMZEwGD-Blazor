@@ -1,16 +1,40 @@
-﻿namespace System_ZiMZEwGD_Blazor.Data
-{
-    public class Measurment
-    {
-        protected ulong Value { get; }
-        protected string Type { get; }
+﻿using System.ComponentModel.DataAnnotations;
 
-        protected DateTime Date { get; }
-        public Measurment(ulong value, string type)
+namespace System_ZiMZEwGD_Blazor.Data
+{
+    public abstract class Measurment
+    {
+        [Key]
+        public abstract DateTime date { get; set; }
+        public abstract ulong value { get; set; }
+        public abstract string type { get; set; }
+
+    }
+    public class Consumption:Measurment
+    {
+        [Key]
+        public override DateTime date { get; set; }
+        public override ulong value { get; set; }
+        public override string type { get; set; } 
+
+        public Consumption()
         {
-            Value = value;
-            Type = type;
-            Date = DateTime.Now;
+            value = 0;
+            type = "KW/H";
+            date = DateTime.Now;
+        }
+        public Consumption(ulong v, DateTime d)
+        {
+            value = v;
+            type = "KW/H";
+            date = d;
+        }
+        public Consumption(string data)
+        {
+            string v = data.Split(' ')[0];
+            type = "KW/H";
+            DateTime d =DateTime.Parse(data.Split(' ')[1]);
+
         }
 
     }

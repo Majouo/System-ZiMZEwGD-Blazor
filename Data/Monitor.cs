@@ -9,10 +9,10 @@
             IP = ip;
             Port = port;
         }
-        protected override string Name { get; }
-        protected override string Description { get; }
-        protected override string IP { get; set; }
-        protected override uint Port { get; set; }
+        public override string Name { get; }
+        public override string Description { get; }
+        public override string IP { get; }
+        public override uint Port { get; }
 
     }
 }

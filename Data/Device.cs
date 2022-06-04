@@ -2,9 +2,9 @@
 {
     public abstract class Device
     {
-        protected abstract string Name { get; }
-        protected abstract string Description { get; }
-        protected abstract string IP { get; set; }
-        protected abstract uint Port { get; set; }
+        public abstract string Name { get; }
+        public abstract string Description { get; }
+        public abstract string IP { get; }
+        public abstract uint Port { get; }
     }
 }
