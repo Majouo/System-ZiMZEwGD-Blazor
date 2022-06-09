@@ -1,48 +1,47 @@
 ﻿@page "/"
-@using System_ZiMZEwGD_Blazor.Components
 
-<Highchart Json="@jsonString">
+<SurveyPrompt Title="Witam"/>
 
-</Highchart>
+<System_ZiMZEwGD_Blazor.Components.BarChart Data="Data" Title="@("Wykres zużycia energii")"/>
 
 @code{
-    string jsonString = @"{
-    title:{
-        text:'Zużycie energii'
-    },
-    subtitle:{
-        text:'Licznik'
-    },
-    yAxis:{
-        title:{
-            text:'KW/H'
-        }
-    },
-    xAxis:{
-        accessibility:{
-            rangeDescription:'Months'
-        }
-    },
-    series: [{
-        name: 'Licznik'
-        data: [500,600,750,800,900]
-    }],
-    responsive: {
-        rules: [{
-            condition: {
-
-            },
-            chartOptions: {
-                legend: {
-                    layout: 'horizontal',
-                    align: 'center',
-                    verticalAlign: 'bottom'
-                }
-            }
-        }]
+    Dictionary<ulong, IEnumerable<(string, ulong)>> Data;
+    protected override void OnInitialized()
+    {
+        //Dane są przykładowe należy powiązać z bazą danych
+        Data = new Dictionary<ulong, IEnumerable<(string, ulong)>>
+            {
+                [2022] = new List<(string, ulong)>
+                {
+                    ("Styczeń ",1400),
+                    ("Luty ",1300),
+                    ("Marzec ",1200),
+                    ("Kwiecień ",1100),
+                    ("Maj ",1000),
+                    ("Czerwiec ",950),
+                    ("Lipiec ",900),
+                    ("Sierpień ",950),
+                    ("Wrzesień ",1000),
+                    ("Październik ",1100),
+                    ("Listopad ",1200),
+                    ("Grudzień ",1350),
+                },
+                [2023] = new List<(string, ulong)>
+                {
+                    ("Styczeń ",1350),
+                    ("Luty ",1250),
+                    ("Marzec ",1000),
+                    ("Kwiecień ",1100),
+                    ("Maj ",900),
+                    ("Czerwiec ",1000),
+                    ("Lipiec ",950),
+                    ("Sierpień ",1100),
+                    ("Wrzesień ",850),
+                    ("Październik ",1000),
+                    ("Listopad ",1050),
+                    ("Grudzień ",1350),
+                },
+            };
     }
 
-
-
-    }";
 }
