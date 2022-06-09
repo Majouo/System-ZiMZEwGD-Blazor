@@ -1,9 +1,48 @@
 ﻿@page "/"
+@using System_ZiMZEwGD_Blazor.Components
 
-<PageTitle>Index</PageTitle>
+<Highchart Json="@jsonString">
 
-<h1>Hello, world!</h1>
+</Highchart>
 
-Welcome to your new app.
+@code{
+    string jsonString = @"{
+    title:{
+        text:'Zużycie energii'
+    },
+    subtitle:{
+        text:'Licznik'
+    },
+    yAxis:{
+        title:{
+            text:'KW/H'
+        }
+    },
+    xAxis:{
+        accessibility:{
+            rangeDescription:'Months'
+        }
+    },
+    series: [{
+        name: 'Licznik'
+        data: [500,600,750,800,900]
+    }],
+    responsive: {
+        rules: [{
+            condition: {
 
-<SurveyPrompt Title="How is Blazor working for you?" />
+            },
+            chartOptions: {
+                legend: {
+                    layout: 'horizontal',
+                    align: 'center',
+                    verticalAlign: 'bottom'
+                }
+            }
+        }]
+    }
+
+
+
+    }";
+}
