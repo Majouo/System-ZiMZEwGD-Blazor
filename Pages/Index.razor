@@ -1,47 +1,29 @@
 ﻿@page "/"
 
-<SurveyPrompt Title="Witam"/>
-
-<System_ZiMZEwGD_Blazor.Components.BarChart Data="Data" Title="@("Opłata za rok: ")"/>
+<Column Data="data" Config="columnConfig"></Column>
 
 @code{
-    Dictionary<ulong, IEnumerable<(string, ulong)>> Data;
-    protected override void OnInitialized()
-    {
-        //Dane są przykładowe należy powiązać z bazą danych
-        Data = new Dictionary<ulong, IEnumerable<(string, ulong)>>
-            {
-                [2022] = new List<(string, ulong)>
-                {
-                    ("Styczeń ",1400),
-                    ("Luty ",1300),
-                    ("Marzec ",1200),
-                    ("Kwiecień ",1100),
-                    ("Maj ",1000),
-                    ("Czerwiec ",950),
-                    ("Lipiec ",900),
-                    ("Sierpień ",950),
-                    ("Wrzesień ",1000),
-                    ("Październik ",1100),
-                    ("Listopad ",1200),
-                    ("Grudzień ",1350),
-                },
-                [2023] = new List<(string, ulong)>
-                {
-                    ("Styczeń ",1350),
-                    ("Luty ",1250),
-                    ("Marzec ",1000),
-                    ("Kwiecień ",1100),
-                    ("Maj ",900),
-                    ("Czerwiec ",1000),
-                    ("Lipiec ",950),
-                    ("Sierpień ",1100),
-                    ("Wrzesień ",850),
-                    ("Październik ",1000),
-                    ("Listopad ",1050),
-                    ("Grudzień ",1350),
-                },
-            };
-    }
+    object[] data = new object[]
+        {
+            new {year="2020",value=1000,type="type-1"},
+            new {year="2021",value=1200,type="type-2"},
+            new {year="2022",value=900,type="type-3"},
 
+        };
+}
+@code
+{
+    ColumnConfig columnConfig = new ColumnConfig()
+    {
+        Title = new Title()
+        {
+            Visible = true,
+            Text = "Zuzycie energii"
+        },
+        Padding="Auto",
+        ForceFit=true,
+        XField="year",
+        YField="value",
+
+    };
 }
