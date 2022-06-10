@@ -23,7 +23,7 @@ section > span{
 <div class="alert alert-dark col-8">
     <div class="alert alert-primaty mb-4 border-dark">
         <div class="row">
-            <h2 class="mb-0">@Title</h2>
+            <h2 class="mb-0">@Title @sum</h2>
             <select class ="from-control col-4 m1-3 border-dark" @bind="selectedYear" @bind:event="oninput">
                 @foreach (var item in Data.Keys.Reverse())
                 {
@@ -40,7 +40,7 @@ section > span{
             </div>
         }
         <div class="legend">
-            @for(int i=1;i<=10;i++)
+            @for(ulong i=1;i<=8;i++)
             {
                <section>
                    <span>@(i*200)</span>
@@ -69,4 +69,22 @@ section > span{
             _selectedYear = value;  
         }
     }
+    public ulong sum
+    {
+        get
+        {
+            ulong _sum = 0;
+
+            foreach (var item in Data.Where(s=>s.Key==selectedYear).SelectMany(s => s.Value))
+            {
+                _sum += item.Item2;
+            }
+            _sum /= 77;
+            _sum *= 100;
+            return _sum;
+
+        }
+    }
+
+    
 }
