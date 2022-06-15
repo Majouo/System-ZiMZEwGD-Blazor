@@ -12,7 +12,7 @@ using System_ZiMZEwGD_Blazor.Data;
 namespace System_ZiMZEwGD_Blazor.Data.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220610102930_Initial")]
+    [Migration("20220611212610_Initial")]
     partial class Initial
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
