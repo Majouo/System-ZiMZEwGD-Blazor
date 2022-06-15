@@ -1,0 +1,47 @@
+﻿@using System_ZiMZEwGD_Blazor.Data;
+@page "/listConsumptions";
+@inject CustomHttpClient Http  
+@inject AppSettingsService AppSettingsService 
+
+<h2>Consumption Details</h2>  
+<p>  
+    <a href="/addconsumptions">Create New Consumption</a>  
+</p>  
+@if (Consumption == null)  
+{  
+    <img src="./css/basicloader.gif" />  
+}  
+else  
+{  
+    <table class='table'>  
+        <thead>  
+            <tr>  
+                <th>type</th>  
+                <th>Date</th>  
+                <th>value</th>  
+            </tr>  
+        </thead>  
+        <tbody>  
+            @foreach (var employee in Consumption)  
+            {  
+                <tr>  
+                    <td>@employee.type</td>  
+                    <td>@employee.date</td>  
+                    <td>@employee.value</td>   
+                </tr>  
+  
+            }  
+        </tbody>  
+    </table>  
+}  
+  
+@code {  
+    Consumption[] Consumption;  
+    string baseUrl;  
+  
+    protected override async Task OnInitializedAsync()  
+    {  
+        baseUrl = AppSettingsService.GetBaseUrl();  
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get");  
+    }  
+}     

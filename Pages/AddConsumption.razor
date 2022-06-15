@@ -1,0 +1,52 @@
+﻿@using System_ZiMZEwGD_Blazor.Data
+@page "/addconsumptions"  
+  
+@inject CustomHttpClient Http  
+@inject NavigationManager NavigationManager  
+@inject AppSettingsService AppSettingsService  
+
+<h2>Create Consumption</h2>  
+<hr />  
+<form>  
+    <div class="row">  
+        <div class="col-md-8">  
+            <div class="form-group">  
+                <label for="Name" class="control-label">Date</label>  
+                <input for="Name" class="form-control" @bind="@consumption.date" />  
+            </div>  
+            <div class="form-group">  
+                <label for="Department" class="control-label">Value</label>  
+                <input for="Department" class="form-control" @bind="@consumption.value" />  
+            </div>  
+            <div class="form-group">  
+                <label for="Designation" class="control-label">Type</label>  
+                <input for="Designation" class="form-control" @bind="@consumption.type" />  
+            </div>  
+        </div>  
+    </div>  
+    <div class="row">  
+        <div class="col-md-4">  
+            <div class="form-group">  
+                <input type="button" class="btn btn-primary" @onclick="@CreateEmployee" value="Save" />  
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />  
+            </div>  
+        </div>  
+    </div>  
+</form> 
+@code {  
+  
+    Consumption consumption = new Consumption();  
+    string baseUrl;  
+  
+    protected async Task CreateEmployee()  
+    {  
+        baseUrl = AppSettingsService.GetBaseUrl();  
+        await Http.PostJsonAsync(baseUrl + "/api/employees/create", consumption);  
+        NavigationManager.NavigateTo("listconsumptions");  
+    }  
+  
+    void Cancel()  
+    {  
+        NavigationManager.NavigateTo("listconsumptions");  
+    }  
+}   
