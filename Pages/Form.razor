@@ -1,0 +1,46 @@
+﻿@page "/form"
+@inherits FormBase.FormBase
+
+<h3> My information</h3>
+<div class="row-content">
+    <div class="colmd-2">
+        Firstname
+
+    </div>
+    <div class="col-md-4">
+
+        <input class="form-control" @bind=Form.type/>
+    </div>
+
+</div>
+<div class="row-content">
+    <div class="colmd-2">
+        Surname
+
+    </div>
+    <div class="col-md-4">
+
+        <input class="form-control" @bind=Form.value/>
+    </div>
+
+</div>
+<div class="row-content">
+    <div class="colmd-2">
+        Prefered name
+
+    </div>
+    <div class="col-md-4">
+
+        <input class="form-control"@bind=Form.date/>
+    </div>
+    
+  
+    <div class="col-md-2">
+
+    </div>
+    <div class="col-md-4">
+    <input type="button" value="Save" @onclick="() => SaveForm()" />
+    </div>
+      
+
+</div>
