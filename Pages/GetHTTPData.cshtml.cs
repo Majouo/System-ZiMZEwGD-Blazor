@@ -25,7 +25,7 @@ namespace System_ZiMZEwGD_Blazor.Pages
 
         [BindProperty]
         public Consumption Consumption { get; set; } = new Consumption();
-        public System_ZiMZEwGD_Blazor.Data.Monitor Monitor = new System_ZiMZEwGD_Blazor.Data.Monitor("PI", "test", "192.168.1.5", 8000);
+        public System_ZiMZEwGD_Blazor.Data.Monitor Monitor = new System_ZiMZEwGD_Blazor.Data.Monitor("PI", "test", "192.168.1.5", 8000,"test");
         public HTTPdata hTTPdata { get; set; } = new HTTPdata();
 
         // To protect from overposting attacks, see https://aka.ms/RazorPagesCRUD

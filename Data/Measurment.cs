@@ -31,9 +31,9 @@ namespace System_ZiMZEwGD_Blazor.Data
         }
         public Consumption(string data)
         {
-            string v = data.Split(' ')[0];
+            string v = data.Split('\n')[0];
             type = "KW/H";
-            DateTime d =DateTime.Parse(data.Split(' ')[1]);
+            DateTime d =DateTime.Parse(data.Split('\n')[1]);
 
         }
 

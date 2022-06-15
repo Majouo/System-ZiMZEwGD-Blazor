@@ -1,18 +1,236 @@
-﻿@page "/"
+﻿@using System_ZiMZEwGD_Blazor.Data;
+@page "/"
+@inject CustomHttpClient Http  
+@inject AppSettingsService AppSettingsService 
 
-<Column Data="data" Config="columnConfig"></Column>
+@if(Consumption == null)
+{
+    <img src="./css/basicloader.gif" />  
+}
+else
+{
+
+    <h2>Menu Główne</h2>  
+    <p>  
+    <a>Miesięczne zużycie w KW/H</a>  
+    </p>
+    <div class="alert alert-primaty mb-4 border-dark">
+        <div class="row">
+            <h2 class="mb-0">Rok</h2>
+            <button @onclick="check">
+            Zatwierdź
+            </button>
+            <input type="checkbox" id="Show" @bind=show>
+            <select class ="from-control col-4 m1-3 border-dark" @bind="selectedYear" @bind:event="oninput">
+                @foreach (var item in Consumption.Reverse())
+                {
+                    <option>@item.date.Year</option>
+                }          
+            </select> 
+        </div>
+    </div>
+    if(@show)
+    {
+    <Column Data="monthlyValue" Config="columnConfig"></Column>
+    }
+}
 
 @code{
-    object[] data = new object[]
+    private int _selectedYear;
+    public int selectedYear
+    {
+        get
         {
-            new {year="2020",value=1000,type="type-1"},
-            new {year="2021",value=1200,type="type-2"},
-            new {year="2022",value=900,type="type-3"},
+            if (_selectedYear == 0)
+                return Consumption.Last().date.Year;
+            return _selectedYear;
+        }
+        set
+        {
+            _selectedYear = value;  
+        }
+    }
+    [Parameter]
+    public bool show{ get; set; }
+    class MinMax
+    {
+        public MinMax(string m)
+        {
+            minimum = ulong.MaxValue;
+            maksimum = ulong.MinValue;
+            month = m;
 
-        };
-}
-@code
-{
+        }
+        ulong minimum{ get; set; }
+        ulong maksimum{ get; set; }
+        [Parameter]
+        public string month{ get; set; }
+        [Parameter]
+        public ulong value{ get; set; }
+        public string type = "type-1";
+        internal void checkminmax(ulong item)
+        {
+            if(item>maksimum)
+            {
+                maksimum = item;
+                value = maksimum - minimum;
+            }
+            if(item<minimum)
+            {
+                minimum = item;
+                value = maksimum - minimum;
+            }
+
+        }
+
+    }
+    Consumption[] Consumption;  
+    string baseUrl;
+    MinMax[] monthlyValue = { new MinMax("Styczeń"),
+    new MinMax("Luty"),
+    new MinMax("Marzec"),
+    new MinMax("Kwiecień"),
+    new MinMax("Maj"),
+    new MinMax("Czerwiec"),
+    new MinMax("Lipiec"),
+    new MinMax("Sierpień"),
+    new MinMax("Wrzesień"),
+    new MinMax("Październik"),
+    new MinMax("Listopad"),
+    new MinMax("Grudzień"),
+    };
+    protected override async Task OnInitializedAsync()  
+    {
+        show = false;
+        monthlyValue[0] = new MinMax("Styczeń");
+        monthlyValue[1] = new MinMax("Luty");
+        monthlyValue[2] = new MinMax("Marzec");
+        monthlyValue[3] = new MinMax("Kwiecień");
+        monthlyValue[4] = new MinMax("Maj");
+        monthlyValue[5] = new MinMax("Czerwiec");
+        monthlyValue[6] = new MinMax("Lipiec");
+        monthlyValue[7] = new MinMax("Sierpień");
+        monthlyValue[8] = new MinMax("Wrzesień");
+        monthlyValue[9] = new MinMax("Październik");
+        monthlyValue[10] = new MinMax("Listopad");
+        monthlyValue[11] = new MinMax("Grudzień");
+
+        baseUrl = AppSettingsService.GetBaseUrl();  
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get");  
+
+        foreach(var item in Consumption.Where(item => item.date.Year==selectedYear))
+        {
+            switch(item.date.Month)
+            {
+                case 1:
+                    monthlyValue[0].checkminmax(item.value);
+                    break;
+                case 2:
+                    monthlyValue[1].checkminmax(item.value);
+                    break;
+                case 3:
+                    monthlyValue[2].checkminmax(item.value);
+                    break;
+                case 4:
+                    monthlyValue[3].checkminmax(item.value);
+                    break;
+                case 5:
+                    monthlyValue[4].checkminmax(item.value);
+                    break;
+                case 6:
+                    monthlyValue[5].checkminmax(item.value);
+                    break;
+                case 7:
+                    monthlyValue[6].checkminmax(item.value);
+                    break;
+                case 8:
+                    monthlyValue[7].checkminmax(item.value);
+                    break;
+                case 9:
+                    monthlyValue[8].checkminmax(item.value);
+                    break;
+                case 10:
+                    monthlyValue[9].checkminmax(item.value);
+                    break;
+                case 11:
+                    monthlyValue[10].checkminmax(item.value);
+                    break;
+                case 12:
+                    monthlyValue[11].checkminmax(item.value);
+                    break;
+
+            }
+
+        }
+    }
+
+    public async Task check()  
+    {
+        show = false;
+        monthlyValue[0] = new MinMax("Styczeń");
+        monthlyValue[1] = new MinMax("Luty");
+        monthlyValue[2] = new MinMax("Marzec");
+        monthlyValue[3] = new MinMax("Kwiecień");
+        monthlyValue[4] = new MinMax("Maj");
+        monthlyValue[5] = new MinMax("Czerwiec");
+        monthlyValue[6] = new MinMax("Lipiec");
+        monthlyValue[7] = new MinMax("Sierpień");
+        monthlyValue[8] = new MinMax("Wrzesień");
+        monthlyValue[9] = new MinMax("Październik");
+        monthlyValue[10] = new MinMax("Listopad");
+        monthlyValue[11] = new MinMax("Grudzień");
+
+        baseUrl = AppSettingsService.GetBaseUrl();  
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get"); 
+        foreach(var item in Consumption.Where(item => item.date.Year==selectedYear))
+        {
+            switch(item.date.Month)
+            {
+                case 1:
+                    monthlyValue[0].checkminmax(item.value);
+                    break;
+                case 2:
+                    monthlyValue[1].checkminmax(item.value);
+                    break;
+                case 3:
+                    monthlyValue[2].checkminmax(item.value);
+                    break;
+                case 4:
+                    monthlyValue[3].checkminmax(item.value);
+                    break;
+                case 5:
+                    monthlyValue[4].checkminmax(item.value);
+                    break;
+                case 6:
+                    monthlyValue[5].checkminmax(item.value);
+                    break;
+                case 7:
+                    monthlyValue[6].checkminmax(item.value);
+                    break;
+                case 8:
+                    monthlyValue[7].checkminmax(item.value);
+                    break;
+                case 9:
+                    monthlyValue[8].checkminmax(item.value);
+                    break;
+                case 10:
+                    monthlyValue[9].checkminmax(item.value);
+                    break;
+                case 11:
+                    monthlyValue[10].checkminmax(item.value);
+                    break;
+                case 12:
+                    monthlyValue[11].checkminmax(item.value);
+                    break;
+
+            }
+
+        }
+        show = true;
+
+    }
+
+    
     ColumnConfig columnConfig = new ColumnConfig()
     {
         Title = new Title()
@@ -22,7 +240,7 @@
         },
         Padding="Auto",
         ForceFit=true,
-        XField="year",
+        XField="month",
         YField="value",
 
     };

@@ -6,5 +6,6 @@
         public abstract string Description { get; }
         public abstract string IP { get; }
         public abstract uint Port { get; }
+        internal abstract string Password { get; }
     }
 }
