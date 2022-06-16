@@ -11,31 +11,117 @@ else
 {
 
     <h2>Menu Główne</h2>  
-    <p>  
-    <a>Miesięczne zużycie w KW/H</a>  
-    </p>
     <div class="alert alert-primaty mb-4 border-dark">
         <div class="row">
             <h2 class="mb-0">Rok</h2>
-            <button @onclick="check">
+            <button @onclick="checkYear">
             Zatwierdź
             </button>
-            <input type="checkbox" id="Show" @bind=show>
             <select class ="from-control col-4 m1-3 border-dark" @bind="selectedYear" @bind:event="oninput">
+                @for(int i=0;i<10000;i++)
+                {
+                    year[i] = false;  
+                }
                 @foreach (var item in Consumption.Reverse())
                 {
-                    <option>@item.date.Year</option>
+                    for(int i=0;i<10000;i++)
+                    {
+                        if(item.date.Year==i)
+                        {
+                            if(year[i]==false)
+                            {
+                                <option>@item.date.Year</option>
+                                year[i] = true;
+                            }
+                        }
+                    }
                 }          
             </select> 
         </div>
     </div>
-    if(@show)
+    if(@showYearSummary)
     {
+    <p>  
+    <a>Miesięczne zużycie w KW/H</a>  
+    </p>
     <Column Data="monthlyValue" Config="columnConfig"></Column>
+    }
+    <div class="alert alert-primaty mb-4 border-dark">
+        <div class="row">
+            <h2 class="mb-0">Miesiąc</h2>
+            <button @onclick="checkMonth">
+            Zatwierdź
+            </button>
+            <select class ="from-control col-4 m1-3 border-dark" @bind="selectedMonth" @bind:event="oninput">
+                @for(int i=0;i<13;i++)
+                {
+                    month[i] = false;  
+                }
+                @foreach (var item in Consumption.Reverse())
+                {
+                    for(int i=0;i<13;i++)
+                    {
+                        if(item.date.Month==i)
+                        {
+                            if(month[i]==false)
+                            {
+                                <option>@item.date.Month</option>
+                                month[i] = true;
+                            }
+                        }
+                    }
+                }          
+            </select> 
+        </div>
+    </div>
+    if(@showMonthSummary)
+    {
+    <p>  
+    <a>Dzienne zużycie w KW/H</a>  
+    </p>
+    <Area Data="dailyValue" Config="areaConfig1"></Area>
+    }
+    <div class="alert alert-primaty mb-4 border-dark">
+        <div class="row">
+            <h2 class="mb-0">Dzień</h2>
+            <button @onclick="checkDay">
+            Zatwierdź
+            </button>
+            <select class ="from-control col-4 m1-3 border-dark" @bind="selectedDay" @bind:event="oninput">
+                @for(int i=0;i<32;i++)
+                {
+                    day[i] = false;  
+                }
+                @foreach (var item in Consumption.Reverse())
+                {
+                    for(int i=0;i<32;i++)
+                    {
+                        if(item.date.Day==i)
+                        {
+                            if(day[i]==false)
+                            {
+                                <option>@item.date.Day</option>
+                                day[i] = true;
+                            }
+                        }
+                    }
+                }          
+            </select> 
+        </div>
+    </div>
+    if(@showDaySummary)
+    {
+    <p>  
+    <a>Godzinne zużycie w KW/H</a>  
+    </p>
+    <Area Data="hourlyValue" Config="areaConfig2"></Area>
     }
 }
 
 @code{
+    bool[] year = new bool[10000];
+    bool[] month = new bool[13];
+    bool[] day = new bool[32];
     private int _selectedYear;
     public int selectedYear
     {
@@ -50,8 +136,41 @@ else
             _selectedYear = value;  
         }
     }
+    private int _selectedMonth;
+    public int selectedMonth
+    {
+        get
+        {
+            if (_selectedMonth == 0)
+                return Consumption.Last().date.Month;
+            return _selectedMonth;
+        }
+        set
+        {
+            _selectedMonth = value;  
+        }
+    }
+    private int _selectedDay;
+    public int selectedDay
+    {
+        get
+        {
+            if (_selectedDay == 0)
+                return Consumption.Last().date.Day;
+            return _selectedDay;
+        }
+        set
+        {
+            _selectedDay = value;  
+        }
+    }
+
     [Parameter]
-    public bool show{ get; set; }
+    public bool showYearSummary{ get; set; }
+    [Parameter]
+    public bool showMonthSummary{ get; set; }
+    [Parameter]
+    public bool showDaySummary{ get; set; }
     class MinMax
     {
         public MinMax(string m)
@@ -99,9 +218,66 @@ else
     new MinMax("Listopad"),
     new MinMax("Grudzień"),
     };
+    MinMax[] dailyValue = { new MinMax("1"),
+    new MinMax("2"),
+    new MinMax("3"),
+    new MinMax("4"),
+    new MinMax("5"),
+    new MinMax("6"),
+    new MinMax("7"),
+    new MinMax("8"),
+    new MinMax("9"),
+    new MinMax("10"),
+    new MinMax("11"),
+    new MinMax("12"),
+    new MinMax("13"),
+    new MinMax("14"),
+    new MinMax("15"),
+    new MinMax("16"),
+    new MinMax("17"),
+    new MinMax("18"),
+    new MinMax("19"),
+    new MinMax("20"),
+    new MinMax("21"),
+    new MinMax("22"),
+    new MinMax("23"),
+    new MinMax("24"),
+    new MinMax("25"),
+    new MinMax("26"),
+    new MinMax("27"),
+    new MinMax("28"),
+    new MinMax("29"),
+    new MinMax("30"),
+    new MinMax("31"),
+    };
+    MinMax[] hourlyValue = { new MinMax("1"),
+    new MinMax("2"),
+    new MinMax("3"),
+    new MinMax("4"),
+    new MinMax("5"),
+    new MinMax("6"),
+    new MinMax("7"),
+    new MinMax("8"),
+    new MinMax("9"),
+    new MinMax("10"),
+    new MinMax("11"),
+    new MinMax("12"),
+    new MinMax("13"),
+    new MinMax("14"),
+    new MinMax("15"),
+    new MinMax("16"),
+    new MinMax("17"),
+    new MinMax("18"),
+    new MinMax("19"),
+    new MinMax("20"),
+    new MinMax("21"),
+    new MinMax("22"),
+    new MinMax("23"),
+    new MinMax("24"),
+        };
     protected override async Task OnInitializedAsync()  
     {
-        show = false;
+        showYearSummary = false;
         monthlyValue[0] = new MinMax("Styczeń");
         monthlyValue[1] = new MinMax("Luty");
         monthlyValue[2] = new MinMax("Marzec");
@@ -164,21 +340,21 @@ else
         }
     }
 
-    public async Task check()  
+    public async Task checkYear()  
     {
-        show = false;
-        monthlyValue[0] = new MinMax("Styczeń");
-        monthlyValue[1] = new MinMax("Luty");
-        monthlyValue[2] = new MinMax("Marzec");
-        monthlyValue[3] = new MinMax("Kwiecień");
-        monthlyValue[4] = new MinMax("Maj");
-        monthlyValue[5] = new MinMax("Czerwiec");
-        monthlyValue[6] = new MinMax("Lipiec");
-        monthlyValue[7] = new MinMax("Sierpień");
-        monthlyValue[8] = new MinMax("Wrzesień");
-        monthlyValue[9] = new MinMax("Październik");
-        monthlyValue[10] = new MinMax("Listopad");
-        monthlyValue[11] = new MinMax("Grudzień");
+        showYearSummary = false;
+        monthlyValue[0] = new MinMax($"Styczeń {selectedYear}");
+        monthlyValue[1] = new MinMax($"Luty {selectedYear}");
+        monthlyValue[2] = new MinMax($"Marzec {selectedYear}");
+        monthlyValue[3] = new MinMax($"Kwiecień {selectedYear}");
+        monthlyValue[4] = new MinMax($"Maj {selectedYear}");
+        monthlyValue[5] = new MinMax($"Czerwiec {selectedYear}");
+        monthlyValue[6] = new MinMax($"Lipiec {selectedYear}");
+        monthlyValue[7] = new MinMax($"Sierpień {selectedYear}");
+        monthlyValue[8] = new MinMax($"Wrzesień {selectedYear}");
+        monthlyValue[9] = new MinMax($"Październik {selectedYear}");
+        monthlyValue[10] = new MinMax($"Listopad {selectedYear}");
+        monthlyValue[11] = new MinMax($"Grudzień {selectedYear}");
 
         baseUrl = AppSettingsService.GetBaseUrl();  
         Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get"); 
@@ -226,11 +402,51 @@ else
             }
 
         }
-        show = true;
+        showYearSummary = true;
+
+    }
+    public async Task checkMonth()  
+    {
+        showMonthSummary = false;
+        for(int i=0;i<DateTime.DaysInMonth(selectedYear,selectedMonth); i++)
+        {
+            dailyValue[i]=new MinMax($"{i+1} {selectedMonth}");
+            
+        }
+
+        baseUrl = AppSettingsService.GetBaseUrl();  
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get"); 
+        foreach(var item in Consumption.Where(item => item.date.Month==selectedMonth))
+        {
+            dailyValue[item.date.Day].checkminmax(item.value);
+
+        }
+        showMonthSummary = true;
+
+    }
+    public async Task checkDay()  
+    {
+        showDaySummary = false;
+        for(int i=0;i<24; i++)
+        {
+            hourlyValue[i]=new MinMax($"{i} {selectedDay}");
+            
+        }
+
+        baseUrl = AppSettingsService.GetBaseUrl();  
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get"); 
+        foreach(var item in Consumption.Where(item => item.date.Day==selectedDay))
+        {
+            hourlyValue[item.date.Hour].checkminmax(item.value);
+
+        }
+        showDaySummary = true;
 
     }
 
     
+
+
     ColumnConfig columnConfig = new ColumnConfig()
     {
         Title = new Title()
@@ -242,6 +458,38 @@ else
         ForceFit=true,
         XField="month",
         YField="value",
+
+
+
+    };
+    AreaConfig areaConfig1 = new AreaConfig()
+    {
+        Title = new Title()
+        {
+            Visible = true,
+            Text = "Zuzycie energii"
+        },
+        Padding="Auto",
+        ForceFit=true,
+        XField="month",
+        YField="value",
+        
+           
+
+    };
+    AreaConfig areaConfig2 = new AreaConfig()
+    {
+        Title = new Title()
+        {
+            Visible = true,
+            Text = "Zuzycie energii"
+        },
+        Padding="Auto",
+        ForceFit=true,
+        XField="month",
+        YField="value",
+        
+           
 
     };
 }
