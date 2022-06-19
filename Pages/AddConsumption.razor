@@ -4,7 +4,12 @@
 @inject CustomHttpClient Http  
 @inject NavigationManager NavigationManager  
 @inject AppSettingsService AppSettingsService  
+<AuthorizeView Roles="Admin">
+<NotAuthorized>
+<h2>Należy być administartorem by wyświetlić zawartość</h2> 
+</NotAuthorized>
 
+<Authorized>
 <h2>Create Consumption</h2>  
 <hr />  
 <form>  
@@ -32,7 +37,9 @@
             </div>  
         </div>  
     </div>  
-</form> 
+</form>
+</Authorized>
+</AuthorizeView>
 @code {  
   
     Consumption consumption = new Consumption();  

@@ -3,6 +3,12 @@
 @inject CustomHttpClient Http  
 @inject AppSettingsService AppSettingsService 
 
+<AuthorizeView>
+<NotAuthorized>
+<h2>Należy zalogować się</h2> 
+</NotAuthorized>
+
+<Authorized>
 <h2>Consumption Details</h2>  
 <p>  
     <a href="/addconsumptions">Create New Consumption</a>  
@@ -33,7 +39,9 @@ else
             }  
         </tbody>  
     </table>  
-}  
+}
+</Authorized>
+</AuthorizeView>
   
 @code {  
     Consumption[] Consumption;  

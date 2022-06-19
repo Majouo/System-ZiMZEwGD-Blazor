@@ -2,7 +2,12 @@
 @page "/"
 @inject CustomHttpClient Http  
 @inject AppSettingsService AppSettingsService 
+<AuthorizeView>
+<NotAuthorized>
+<h2>Należy zalogować się</h2> 
+</NotAuthorized>
 
+<Authorized>
 @if(Consumption == null)
 {
     <img src="./css/basicloader.gif" />  
@@ -117,6 +122,8 @@ else
     <Area Data="hourlyValue" Config="areaConfig2"></Area>
     }
 }
+</Authorized>
+</AuthorizeView>
 
 @code{
     bool[] year = new bool[10000];
