@@ -6,17 +6,16 @@ namespace System_ZiMZEwGD_Blazor.Data
     public class EventDeviceHandler
     {
         [Key]
-        public string name { get; set; }
-        public string command { get; set; }
-        public DateTime when { get; set; }
-        public Device device { get; set; }
+        public string Name { get; set; }
+        public string Command { get; set; }
+        public DateTime When { get; set; }
 
-        public EventDeviceHandler(string n,string c,DateTime w, Device d)
+
+        public EventDeviceHandler(string name, string command, DateTime when)
         {
-            name = n;
-            command = c;
-            when = w;
-            device = d;
+            Name = name;
+            Command = command;
+            When = when;
 
         }
 
@@ -36,17 +35,17 @@ namespace System_ZiMZEwGD_Blazor.Data
         public async Task<Consumption> sendCommand(Device d, string command)
         {
             var method = new PasswordAuthenticationMethod(d.Name, d.Password);//użytkownik i hasło
-            var connection = new Renci.SshNet.ConnectionInfo(d.IP,d.Name, method);// połączenie                                                                        //urządzenie
+            var connection = new Renci.SshNet.ConnectionInfo(d.IP, d.Name, method);// połączenie                                                                        //urządzenie
             var client = new SshClient(connection);
             if (!client.IsConnected)
             {
                 Console.WriteLine("Not connected... ");
                 client.Connect();
             }
-            var writeCommand =client.RunCommand(command);
+            var writeCommand = client.RunCommand(command);
             Console.WriteLine(writeCommand.Result);
             ulong value;
-            if(ulong.TryParse(writeCommand.Result, out value))
+            if (ulong.TryParse(writeCommand.Result, out value))
             {
                 Consumption data = new Consumption(value, DateTime.Now);
                 client.Disconnect();
@@ -58,8 +57,8 @@ namespace System_ZiMZEwGD_Blazor.Data
                 client.Disconnect();
                 return data;
             }
-            
-            
+
+
         }
 
 

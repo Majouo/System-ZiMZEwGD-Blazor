@@ -1,32 +1,31 @@
 ﻿@using System_ZiMZEwGD_Blazor.Data
-@page "/addconsumptions"  
+@page "/addevent"  
   
 @inject CustomHttpClient Http  
 @inject NavigationManager NavigationManager  
 @inject AppSettingsService AppSettingsService  
-
 <AuthorizeView Roles="Admin">
 <NotAuthorized>
 <h2>Należy być administartorem by wyświetlić zawartość</h2> 
 </NotAuthorized>
 
 <Authorized>
-<h2>Create Consumption</h2>  
+<h2>Create Event</h2>  
 <hr />  
 <form>  
     <div class="row">  
         <div class="col-md-8">  
             <div class="form-group">  
-                <label for="Name" class="control-label">Date</label>  
-                <input for="Name" class="form-control" @bind="@consumption.date" />  
+                <label for="Name" class="control-label">Name</label>  
+                <input for="Name" class="form-control" @bind="@eventDeviceHandler.Name" />  
             </div>  
             <div class="form-group">  
-                <label for="Department" class="control-label">Value</label>  
-                <input for="Department" class="form-control" @bind="@consumption.value" />  
+                <label for="Department" class="control-label">Command</label>  
+                <input for="Department" class="form-control" @bind="@eventDeviceHandler.Command" />  
             </div>  
             <div class="form-group">  
-                <label for="Designation" class="control-label">Type</label>  
-                <input for="Designation" class="form-control" @bind="@consumption.type" />  
+                <label for="Designation" class="control-label">When</label>  
+                <input for="Designation" class="form-control" @bind="@eventDeviceHandler.When" />  
             </div>  
         </div>  
     </div>  
@@ -38,24 +37,23 @@
             </div>  
         </div>  
     </div>  
-</form> 
-
+</form>
 </Authorized>
 </AuthorizeView>
 @code {  
   
-    Consumption consumption = new Consumption();  
+    EventDeviceHandler eventDeviceHandler = new EventDeviceHandler( "","", DateTime.Now);  
     string baseUrl;  
   
     protected async Task CreateEmployee()  
     {  
         baseUrl = AppSettingsService.GetBaseUrl();  
-        await Http.PostJsonAsync(baseUrl + "/api/consumption/create", consumption);  
-        NavigationManager.NavigateTo("listconsumptions");  
+        await Http.PostJsonAsync(baseUrl + "/api/event/create", eventDeviceHandler);  
+        NavigationManager.NavigateTo("listevent");  
     }  
   
     void Cancel()  
     {  
-        NavigationManager.NavigateTo("listconsumptions");  
+        NavigationManager.NavigateTo("listevent");  
     }  
 }   

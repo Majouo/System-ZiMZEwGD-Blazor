@@ -1,0 +1,68 @@
+﻿@using System_ZiMZEwGD_Blazor.Data
+@page "/addmonitor"  
+  
+@inject CustomHttpClient Http  
+@inject NavigationManager NavigationManager  
+@inject AppSettingsService AppSettingsService  
+<AuthorizeView Roles="Admin">
+<NotAuthorized>
+<h2>Należy być administartorem by wyświetlić zawartość</h2> 
+</NotAuthorized>
+
+<Authorized>
+<h2>Create Monitor</h2>  
+<hr />  
+<form>  
+    <div class="row">  
+        <div class="col-md-8">  
+             
+            <div class="form-group">  
+                <label for="Department" class="control-label">Name</label>  
+                <input for="Department" class="form-control" @bind="@monitor.Name" />  
+            </div>  
+            <div class="form-group">  
+                <label for="Designation" class="control-label">Description</label>  
+                <input for="Designation" class="form-control" @bind="@monitor.Description" />  
+            </div>  
+            <div class="form-group">  
+                <label for="Designation" class="control-label">IP</label>  
+                <input for="Designation" class="form-control" @bind="@monitor.IP" />  
+            </div>  
+            <div class="form-group">  
+                <label for="Designation" class="control-label">Port</label>  
+                <input for="Designation" class="form-control" @bind="@monitor.Port" />  
+            </div>  
+            <div class="form-group">  
+                <label for="Designation" class="control-label">Password</label>  
+                <input for="Designation" class="form-control" @bind="@monitor.Password" />  
+            </div>  
+        </div>  
+    </div>  
+    <div class="row">  
+        <div class="col-md-4">  
+            <div class="form-group">  
+                <input type="button" class="btn btn-primary" @onclick="@CreateEmployee" value="Save" />  
+                <input type="button" class="btn" @onclick="@Cancel" value="Cancel" />  
+            </div>  
+        </div>  
+    </div>  
+</form>
+</Authorized>
+</AuthorizeView>
+@code {  
+  
+    Monitor monitor = new Monitor("","","",0,"");  
+    string baseUrl;  
+  
+    protected async Task CreateEmployee()  
+    {  
+        baseUrl = AppSettingsService.GetBaseUrl();  
+        await Http.PostJsonAsync(baseUrl + "/api/monitor/create", monitor);  
+        NavigationManager.NavigateTo("listmonitor");  
+    }  
+  
+    void Cancel()  
+    {  
+        NavigationManager.NavigateTo("listmonitor");  
+    }  
+}   
