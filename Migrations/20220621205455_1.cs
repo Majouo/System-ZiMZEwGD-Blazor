@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace System_ZiMZEwGD_Blazor.Migrations
 {
-    public partial class Initial : Migration
+    public partial class _1 : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -65,13 +65,13 @@ namespace System_ZiMZEwGD_Blazor.Migrations
                 name: "EventDeviceHandler",
                 columns: table => new
                 {
-                    Name = table.Column<string>(type: "nvarchar(450)", nullable: false),
-                    Command = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Command = table.Column<string>(type: "nvarchar(450)", nullable: false),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     When = table.Column<DateTime>(type: "datetime2", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_EventDeviceHandler", x => x.Name);
+                    table.PrimaryKey("PK_EventDeviceHandler", x => x.Command);
                 });
 
             migrationBuilder.CreateTable(

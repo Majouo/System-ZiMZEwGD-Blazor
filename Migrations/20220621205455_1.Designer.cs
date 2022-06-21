@@ -12,8 +12,8 @@ using System_ZiMZEwGD_Blazor.Data;
 namespace System_ZiMZEwGD_Blazor.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20220621161827_Initial")]
-    partial class Initial
+    [Migration("20220621205455_1")]
+    partial class _1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -245,17 +245,17 @@ namespace System_ZiMZEwGD_Blazor.Migrations
 
             modelBuilder.Entity("System_ZiMZEwGD_Blazor.Data.EventDeviceHandler", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Command")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Command")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("When")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Name");
+                    b.HasKey("Command");
 
                     b.ToTable("EventDeviceHandler");
                 });

@@ -243,17 +243,17 @@ namespace System_ZiMZEwGD_Blazor.Migrations
 
             modelBuilder.Entity("System_ZiMZEwGD_Blazor.Data.EventDeviceHandler", b =>
                 {
-                    b.Property<string>("Name")
+                    b.Property<string>("Command")
                         .HasColumnType("nvarchar(450)");
 
-                    b.Property<string>("Command")
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<DateTime>("When")
                         .HasColumnType("datetime2");
 
-                    b.HasKey("Name");
+                    b.HasKey("Command");
 
                     b.ToTable("EventDeviceHandler");
                 });

@@ -47,8 +47,11 @@ else
     </div>
     if(@showYearSummary)
     {
-    <p>  
-    <a>Miesięczne zużycie w KW/H</a>  
+    <p>
+    <a>Koszt z roku @yearlyCosts zł</a>
+    </p>
+    <p>
+    <a>Miesięczne zużycie w KW/H</a> 
     </p>
     <Column Data="monthlyValue" Config="columnConfig"></Column>
     }
@@ -82,8 +85,11 @@ else
     </div>
     if(@showMonthSummary)
     {
-    <p>  
-    <a>Dzienne zużycie w KW/H</a>  
+    <p>
+    <a>Koszt z miesiąca @monthlyCosts zł</a>
+    </p>
+    <p>
+    <a>Dzienne zużycie w KW/H</a>
     </p>
     <Area Data="dailyValue" Config="areaConfig1"></Area>
     }
@@ -117,7 +123,10 @@ else
     </div>
     if(@showDaySummary)
     {
-    <p>  
+    <p>
+    <a>Koszt z dnia @dailyCosts zł</a>
+    </p>
+    <p>
     <a>Godzinne zużycie w KW/H</a>  
     </p>
     <Area Data="hourlyValue" Config="areaConfig2"></Area>
@@ -131,6 +140,12 @@ else
     bool[] month = new bool[13];
     bool[] day = new bool[32];
     private int _selectedYear;
+
+    public ulong yearlyCosts = 0;
+    public ulong monthlyCosts = 0;
+    public ulong dailyCosts = 0;
+
+
     public int selectedYear
     {
         get
@@ -375,7 +390,14 @@ else
 
     public async Task checkYear()  
     {
+        yearlyCosts = 0;
+        monthlyCosts = 0;
+        dailyCosts = 0;
+
         showYearSummary = false;
+        showMonthSummary = false;
+        showDaySummary = false;
+
         monthlyValue[0] = new MinMax($"Styczeń {selectedYear}");
         monthlyValue[1] = new MinMax($"Luty {selectedYear}");
         monthlyValue[2] = new MinMax($"Marzec {selectedYear}");
@@ -435,16 +457,26 @@ else
             }
 
         }
+        for(int i=0;i<12; i++)
+        {
+            yearlyCosts += monthlyValue[i].value;
+
+        }
+        yearlyCosts = yearlyCosts * 77 / 100;
         showYearSummary = true;
 
     }
     public async Task checkMonth()  
     {
+        monthlyCosts = 0;
+        dailyCosts = 0;
+
         showMonthSummary = false;
+        showDaySummary = false;
         for(int i=0;i<DateTime.DaysInMonth(selectedYear,selectedMonth); i++)
         {
             dailyValue[i]=new MinMax($"{i+1} {selectedMonth}");
-            
+
         }
 
         baseUrl = AppSettingsService.GetBaseUrl();  
@@ -454,16 +486,25 @@ else
             dailyValue[item.date.Day].checkminmax(item.value);
 
         }
+        for(int i=0;i<DateTime.DaysInMonth(selectedYear,selectedMonth); i++)
+        {
+            monthlyCosts += dailyValue[i].value;
+
+        }
+        monthlyCosts = monthlyCosts * 77 / 100;
         showMonthSummary = true;
+
 
     }
     public async Task checkDay()  
     {
+        dailyCosts = 0;
+
         showDaySummary = false;
         for(int i=0;i<24; i++)
         {
             hourlyValue[i]=new MinMax($"{i} {selectedDay}");
-            
+
         }
 
         baseUrl = AppSettingsService.GetBaseUrl();  
@@ -473,6 +514,12 @@ else
             hourlyValue[item.date.Hour].checkminmax(item.value);
 
         }
+        for(int i=0;i<24; i++)
+        {
+            dailyCosts += hourlyValue[i].value;
+
+        }
+        dailyCosts = dailyCosts * 77 / 100;
         showDaySummary = true;
 
     }

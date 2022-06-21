@@ -5,8 +5,8 @@ namespace System_ZiMZEwGD_Blazor.Data
 {
     public class EventDeviceHandler
     {
-        [Key]
         public string Name { get; set; }
+        [Key]
         public string Command { get; set; }
         public DateTime When { get; set; }
 
