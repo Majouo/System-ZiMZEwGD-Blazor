@@ -16,7 +16,6 @@ namespace System_ZiMZEwGD_Blazor.Data
             Name = name;
             Command = command;
             When = when;
-
         }
 
         public async Task<Consumption> Get(Device d, string filename)

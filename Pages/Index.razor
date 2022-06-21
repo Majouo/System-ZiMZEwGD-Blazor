@@ -1,4 +1,5 @@
 ﻿@using System_ZiMZEwGD_Blazor.Data;
+@using System.Timers;
 @page "/"
 @inject CustomHttpClient Http  
 @inject AppSettingsService AppSettingsService 
@@ -210,7 +211,9 @@ else
         }
 
     }
-    Consumption[] Consumption;  
+    Consumption[] Consumption;
+    EventDeviceHandler[] eventDeviceHandler;
+    Monitor[] monitor;
     string baseUrl;
     MinMax[] monthlyValue = { new MinMax("Styczeń"),
     new MinMax("Luty"),
@@ -282,8 +285,11 @@ else
     new MinMax("23"),
     new MinMax("24"),
         };
+
+
     protected override async Task OnInitializedAsync()  
     {
+
         showYearSummary = false;
         monthlyValue[0] = new MinMax("Styczeń");
         monthlyValue[1] = new MinMax("Luty");
@@ -299,7 +305,17 @@ else
         monthlyValue[11] = new MinMax("Grudzień");
 
         baseUrl = AppSettingsService.GetBaseUrl();  
-        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/consumption/get");  
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/consumption/get");
+        eventDeviceHandler = await Http.GetJsonAsync<EventDeviceHandler[]>(baseUrl + "/api/event/get");
+
+        foreach (var item in eventDeviceHandler)
+        {
+            Timer timer = new Timer();
+            timer.Interval = item.When.Hour *3600000 +item.When.Minute * 60000  + item.When.Second *1000 +item.When.Millisecond;
+            timer.Elapsed += (sender, e) => MyElapsedMethod(sender, e, item);
+            timer.Enabled = true;
+
+        }
 
         foreach(var item in Consumption.Where(item => item.date.Year==selectedYear))
         {
@@ -344,6 +360,16 @@ else
 
             }
 
+        }
+    }
+    private async void MyElapsedMethod(object? sender, ElapsedEventArgs e, EventDeviceHandler deviceH) 
+    {
+        baseUrl = AppSettingsService.GetBaseUrl(); 
+        monitor = await Http.GetJsonAsync<Monitor[]>(baseUrl + "/api/monitor/get");
+        foreach(var item in monitor.Where(item => item.Name==deviceH.Name))
+        {
+            Consumption c = await deviceH.sendCommand(item, deviceH.Command);  
+            await Http.PostJsonAsync(baseUrl + "/api/consumption/create", c);
         }
     }
 

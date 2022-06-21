@@ -4,9 +4,9 @@
 @inject CustomHttpClient Http  
 @inject NavigationManager NavigationManager  
 @inject AppSettingsService AppSettingsService  
-<AuthorizeView Roles="Admin">
+<AuthorizeView>
 <NotAuthorized>
-<h2>Należy być administartorem by wyświetlić zawartość</h2> 
+<h2>Należy zalogować się</h2> 
 </NotAuthorized>
 
 <Authorized>
