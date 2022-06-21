@@ -1,5 +1,5 @@
 ﻿@using System_ZiMZEwGD_Blazor.Data;
-@page "/listConsumptions";
+@page "/listEvent";
 @inject CustomHttpClient Http  
 @inject AppSettingsService AppSettingsService 
 
@@ -9,11 +9,11 @@
 </NotAuthorized>
 
 <Authorized>
-<h2>Consumption Details</h2>  
+<h2>Event Details</h2>  
 <p>  
-    <a href="/addconsumptions">Create New Consumption</a>  
+    <a href="/addevent">Create New Event</a>  
 </p>  
-@if (Consumption == null)  
+@if (EventDeviceHandler == null)  
 {  
     <img src="./css/basicloader.gif" />  
 }  
@@ -22,33 +22,35 @@ else
     <table class='table'>  
         <thead>  
             <tr>  
-                <th>type</th>  
-                <th>Date</th>  
-                <th>value</th>  
+                <th>Name</th>  
+                <th>Command</th>  
+                <th>When</th>  
+
             </tr>  
         </thead>  
         <tbody>  
-            @foreach (var employee in Consumption)  
+            @foreach (var employee in EventDeviceHandler)  
             {  
                 <tr>  
-                    <td>@employee.type</td>  
-                    <td>@employee.date</td>  
-                    <td>@employee.value</td>   
+                    <td>@employee.Name</td>  
+                    <td>@employee.Command</td>  
+                    <td>@employee.When</td>    
                 </tr>  
   
             }  
         </tbody>  
     </table>  
-}  
-  </Authorized>
+}
+</Authorized>
 </AuthorizeView>
+  
 @code {  
-    Consumption[] Consumption;  
+    EventDeviceHandler[] EventDeviceHandler;  
     string baseUrl;  
   
     protected override async Task OnInitializedAsync()  
     {  
         baseUrl = AppSettingsService.GetBaseUrl();  
-        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/consumption/get");  
+        EventDeviceHandler = await Http.GetJsonAsync<EventDeviceHandler[]>(baseUrl + "/api/event/get");  
     }  
 }     

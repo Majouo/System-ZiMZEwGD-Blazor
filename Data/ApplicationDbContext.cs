@@ -12,5 +12,6 @@ namespace System_ZiMZEwGD_Blazor.Data
         }
         public DbSet<System_ZiMZEwGD_Blazor.Data.Consumption>? Consumption { get; set; }
         public DbSet<System_ZiMZEwGD_Blazor.Data.Monitor>? Monitor { get; set; }
+        public DbSet<System_ZiMZEwGD_Blazor.Data.EventDeviceHandler>? EventDeviceHandler { get; set; }
     }
 }

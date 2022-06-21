@@ -299,7 +299,7 @@ else
         monthlyValue[11] = new MinMax("Grudzień");
 
         baseUrl = AppSettingsService.GetBaseUrl();  
-        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get");  
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/consumption/get");  
 
         foreach(var item in Consumption.Where(item => item.date.Year==selectedYear))
         {
@@ -364,7 +364,7 @@ else
         monthlyValue[11] = new MinMax($"Grudzień {selectedYear}");
 
         baseUrl = AppSettingsService.GetBaseUrl();  
-        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get"); 
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/consumption/get"); 
         foreach(var item in Consumption.Where(item => item.date.Year==selectedYear))
         {
             switch(item.date.Month)
@@ -422,7 +422,7 @@ else
         }
 
         baseUrl = AppSettingsService.GetBaseUrl();  
-        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get"); 
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/consumption/get"); 
         foreach(var item in Consumption.Where(item => item.date.Month==selectedMonth))
         {
             dailyValue[item.date.Day].checkminmax(item.value);
@@ -441,7 +441,7 @@ else
         }
 
         baseUrl = AppSettingsService.GetBaseUrl();  
-        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/employees/get"); 
+        Consumption = await Http.GetJsonAsync<Consumption[]>(baseUrl + "/api/consumption/get"); 
         foreach(var item in Consumption.Where(item => item.date.Day==selectedDay))
         {
             hourlyValue[item.date.Hour].checkminmax(item.value);

@@ -8,26 +8,26 @@ namespace System_ZiMZEwGD_Blazor.Data
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ConsumptionController : ControllerBase
+    public class EventController : ControllerBase
     {
         private readonly ApplicationDbContext _dbContext;
 
 
-        public ConsumptionController(ApplicationDbContext dbContext)
+        public EventController(ApplicationDbContext dbContext)
         {
             _dbContext = dbContext;
         }
 
         [HttpGet]
         [Route("Get")]
-        public async Task<List<Consumption>> Get()
+        public async Task<List<EventDeviceHandler>> Get()
         {
-            return await _dbContext.Consumption.ToListAsync();
+            return await _dbContext.EventDeviceHandler.ToListAsync();
         }
 
         [HttpPost]
         [Route("Create")]
-        public async Task<bool> Create([FromBody] Consumption employee)
+        public async Task<bool> Create([FromBody] EventDeviceHandler employee)
         {
             if (ModelState.IsValid)
             {
@@ -51,16 +51,16 @@ namespace System_ZiMZEwGD_Blazor.Data
 
         [HttpGet]
         [Route("Details/{id}")]
-        public async Task<Consumption> Details(string id)
+        public async Task<EventDeviceHandler> Details(string id)
         {
-            return await _dbContext.Consumption.FindAsync(id);
+            return await _dbContext.EventDeviceHandler.FindAsync(id);
         }
 
         [HttpPut]
         [Route("Edit/{id}")]
-        public async Task<bool> Edit(string id, [FromBody] Consumption employee)
+        public async Task<bool> Edit(string id, [FromBody] EventDeviceHandler employee)
         {
-            if (id != employee.type)
+            if (id != employee.Name)
             {
                 return false;
             }
@@ -74,13 +74,13 @@ namespace System_ZiMZEwGD_Blazor.Data
         [Route("Delete/{id}")]
         public async Task<bool> DeleteConfirmed(string id)
         {
-            var employee = await _dbContext.Consumption.FindAsync(id);
+            var employee = await _dbContext.EventDeviceHandler.FindAsync(id);
             if (employee == null)
             {
                 return false;
             }
 
-            _dbContext.Consumption.Remove(employee);
+            _dbContext.EventDeviceHandler.Remove(employee);
             await _dbContext.SaveChangesAsync();
             return true;
         }
