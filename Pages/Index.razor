@@ -1,5 +1,7 @@
 ﻿@using System_ZiMZEwGD_Blazor.Data;
 @using System.Timers;
+@using System.Net.NetworkInformation
+@using System.Text
 @page "/"
 @inject CustomHttpClient Http  
 @inject AppSettingsService AppSettingsService 
@@ -383,8 +385,25 @@ else
         monitor = await Http.GetJsonAsync<Monitor[]>(baseUrl + "/api/monitor/get");
         foreach(var item in monitor.Where(item => item.Name==deviceH.Name))
         {
-            Consumption c = await deviceH.sendCommand(item, deviceH.Command);  
-            await Http.PostJsonAsync(baseUrl + "/api/consumption/create", c);
+            Ping pingSender = new Ping ();
+
+            string data = "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+            byte[] buffer = Encoding.ASCII.GetBytes (data);
+
+
+            int timeout = 5000;
+
+            PingOptions options = new PingOptions (64, true);
+            PingReply reply = pingSender.Send (item.IP, timeout, buffer, options);
+            if (reply.Status == IPStatus.Success)
+            {
+                Consumption c = await deviceH.sendCommand(item, deviceH.Command);
+                await Http.PostJsonAsync(baseUrl + "/api/consumption/create", c);
+            }
+            else
+            {
+                Console.WriteLine($"Nie da się połączyć z {item.Name} ");
+            }
         }
     }
 
